@@ -7,7 +7,7 @@ import { parseDuration, parseTimestamp } from './parse.js';
 
 const { log, error } = console;
 const defaultStartTime = '08:00';
-const lunchBreakDuration = dayjs.duration(30, 'minutes');
+const lunchBreakDuration = dayjs.duration({ minutes: 30 });
 const defaultWorkDayDuration = dayjs.duration({ hours: 7, minutes: 30 });
 
 const main = async () => {
@@ -75,8 +75,7 @@ const main = async () => {
 
         let worked = dayjs.duration(stopped.diff(started));
 
-        const lunchAnswer = await rl.question('Did you have a lunch break? [Y/n] ');
-        if (lunchAnswer.toLowerCase() !== 'n') {
+        if ((await rl.question('Did you have a lunch break? [Y/n] ')).toLowerCase() !== 'n') {
             worked = worked.subtract(lunchBreakDuration);
         }
 
