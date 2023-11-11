@@ -23,7 +23,7 @@ const main = async () => {
         let workDayDuration: Duration | undefined = undefined;
 
         const durationAnswer = await rl.question(
-            `How long is your work day today, excluding the lunch break? [${defaultWorkDayDuration.format('HH:mm')}] `,
+            `How long is your work day today, excluding the lunch break? [${formatDuration(defaultWorkDayDuration)}] `,
         );
         if (durationAnswer !== '') {
             workDayDuration = parseDuration(durationAnswer);
