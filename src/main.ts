@@ -1,9 +1,9 @@
 import chalk from 'chalk';
 import dayjs, { Dayjs } from 'dayjs';
 import * as readline from 'readline/promises';
-import { formatDuration, formatTimestamp, getHoursRoundedStr } from './format';
+import { formatDuration, formatTimestamp, getHoursRoundedStr } from './format.js';
 import { Duration } from 'dayjs/plugin/duration';
-import { parseDuration, parseTimestamp } from './parse';
+import { parseDuration, parseTimestamp } from './parse.js';
 
 const { log, error } = console;
 const defaultStartTime = '08:00';
