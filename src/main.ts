@@ -82,7 +82,7 @@ const main = async () => {
 
         // Calculate unlogged time
         let unLogged: Duration | undefined = undefined;
-        let loggedAnswer = await rl.question('How many hours did you log to ERP already? [00:00] ');
+        let loggedAnswer = await rl.question('How many hours did you log already? [00:00] ');
         if (loggedAnswer === '') {
             loggedAnswer = '00:00';
         }
