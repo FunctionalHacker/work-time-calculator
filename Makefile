@@ -2,7 +2,7 @@ build: node_modules bin
 
 bin: tsc target/workTimeCalculator
 
-tsc:
+tsc: node_modules
 	npm run build
 
 target/workTimeCalculator: target/main.js

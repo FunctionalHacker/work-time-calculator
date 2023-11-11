@@ -9,19 +9,25 @@ dayjs.extend(duration);
 
 const { log, error } = console;
 const defaultStartTime = '08:00';
-const durationFormat = 'HH[ hours and ]mm [minutes]';
 const lunchBreakDuration = dayjs.duration(30, 'minutes');
-const defaultWorkDayDuration = '08:00';
+const defaultWorkDayDuration = dayjs.duration({ hours: 7, minutes: 30 });
 
-const parseTime = (time: string): Dayjs => dayjs(time, 'HH:mm', true);
+const formatTimestamp = (timestamp: dayjs.Dayjs): string => timestamp.format('YYYY-MM-DD HH:mm');
+
+const formatDuration = (unLogged: duration.Duration): string => unLogged.format('HH[ hours and ]mm [minutes]');
+
+const parseTimestamp = (time: string): Dayjs => dayjs(time, 'H:mm', true);
+
+const parseDuration = (time: string): Duration => {
+    const [hours, minutes] = time.split(':').map(Number);
+    return dayjs.duration({ hours, minutes });
+};
 
 const getHoursRounded = (duration: Duration) => {
-    // Get total minutes in the duration
-    let minutes = duration.as('minutes');
-
     // Round up to the next multiple of 15
-    minutes = Math.ceil(minutes / 15) * 15;
+    const minutes = Math.ceil(duration.as('minutes') / 15) * 15;
 
+    // Return as hours
     return dayjs.duration(minutes, 'minutes').asHours();
 };
 
@@ -40,34 +46,40 @@ const main = async () => {
         // Get work day duration
         let workDayDuration: Duration | undefined = undefined;
 
-        const durationAnswer = await rl.question(`How long is your work day today, including the lunch break? [${defaultWorkDayDuration}] `);
-        if (durationAnswer === '') {
-            const [hours, minutes] = durationAnswer.split(':').map(Number);
-            workDayDuration = dayjs.duration({ hours, minutes });
+        const durationAnswer = await rl.question(
+            `How long is your work day today, excluding the lunch break? [${defaultWorkDayDuration.format('HH:mm')}] `,
+        );
+        if (durationAnswer !== '') {
+            workDayDuration = parseDuration(durationAnswer);
             if (workDayDuration.asMinutes() <= 0) {
                 error(
-                    `Failed to parse ${durationAnswer} to duration, using default work day duration ${defaultWorkDayDuration}`,
+                    chalk.red(
+                        `Failed to parse ${durationAnswer} to duration, using default work day duration ${defaultWorkDayDuration}`,
+                    ),
                 );
                 workDayDuration = undefined;
             }
         }
 
         if (!workDayDuration) {
-            const [hours, minutes] = defaultWorkDayDuration.split(':').map(Number);
-            workDayDuration = dayjs.duration({ hours, minutes });
+            workDayDuration = defaultWorkDayDuration;
         }
 
         // Calculate worked time
         const startTimeAnswer = await rl.question(`What time did you start work today? [${defaultStartTime}] `);
         if (startTimeAnswer !== '') {
-            started = parseTime(startTimeAnswer);
+            started = parseTimestamp(startTimeAnswer);
             if (!started.isValid()) {
-                error(`Failed to parse ${startTimeAnswer} to time, using default start time ${defaultStartTime}`);
+                error(
+                    chalk.red(
+                        `Failed to parse ${startTimeAnswer} to time, using default start time ${defaultStartTime}`,
+                    ),
+                );
             }
         }
 
-        if (!started || !started.isValid()) {
-            started = parseTime(defaultStartTime);
+        if (!started?.isValid()) {
+            started = parseTimestamp(defaultStartTime);
         }
 
         let stopped: Dayjs | undefined = undefined;
@@ -78,7 +90,7 @@ const main = async () => {
         if (stoppedAnswer === '') {
             stopped = dayjs();
         } else {
-            stopped = parseTime(stoppedAnswer);
+            stopped = parseTimestamp(stoppedAnswer);
             if (!stopped.isValid()) {
                 error(`Failed to parse ${stoppedAnswer} to time, using current time`);
                 stopped = dayjs();
@@ -98,28 +110,21 @@ const main = async () => {
         if (loggedAnswer === '') {
             loggedAnswer = '00:00';
         }
-        const [hours, minutes] = loggedAnswer.split(':').map(Number);
-        const logged = dayjs.duration({ hours, minutes });
-        const unLoggedDuration = workDayDuration.subtract(worked.subtract(logged));
-        log('logged minutes', logged.asMinutes());
-        log('unlogged minutes', unLoggedDuration.asMinutes());
+        const logged = parseDuration(loggedAnswer);
+        const unLoggedDuration = workDayDuration.subtract(logged);
         if (unLoggedDuration.asMinutes() > 0) {
             unLogged = unLoggedDuration;
         }
 
-        // Log output
+        // Log result
         log();
-        log('Started working at', started.format('YYYY-MM-DD HH:mm'));
-        log('Stopped working at', stopped.format('YYYY-MM-DD HH:mm'));
-        log(
-            'Total worked today:',
-            chalk.green(worked.format(durationFormat)),
-            chalk.yellow(getHoursRoundedStr(worked)),
-        );
+        log('Started working at', formatTimestamp(started));
+        log('Stopped working at', formatTimestamp(stopped));
+        log('Total worked today:', chalk.green(formatDuration(worked)), chalk.yellow(getHoursRoundedStr(worked)));
         log(
             'Unlogged today:',
             unLogged
-                ? `${chalk.red(unLogged.format(durationFormat))} ${chalk.yellow(getHoursRoundedStr(unLogged))}`
+                ? `${chalk.red(formatDuration(unLogged))} ${chalk.yellow(getHoursRoundedStr(unLogged))}`
                 : chalk.green('none'),
         );
     } finally {
