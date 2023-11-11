@@ -1,38 +1,14 @@
 import chalk from 'chalk';
 import dayjs, { Dayjs } from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat.js';
-import duration, { Duration } from 'dayjs/plugin/duration.js';
 import * as readline from 'readline/promises';
-
-dayjs.extend(customParseFormat);
-dayjs.extend(duration);
+import { formatDuration, formatTimestamp, getHoursRoundedStr } from './format';
+import { Duration } from 'dayjs/plugin/duration';
+import { parseDuration, parseTimestamp } from './parse';
 
 const { log, error } = console;
 const defaultStartTime = '08:00';
 const lunchBreakDuration = dayjs.duration(30, 'minutes');
 const defaultWorkDayDuration = dayjs.duration({ hours: 7, minutes: 30 });
-
-const formatTimestamp = (timestamp: dayjs.Dayjs): string => timestamp.format('YYYY-MM-DD HH:mm');
-
-const formatDuration = (unLogged: duration.Duration): string => unLogged.format('HH[ hours and ]mm [minutes]');
-
-const parseTimestamp = (time: string): Dayjs => dayjs(time, 'H:mm', true);
-
-const parseDuration = (time: string): Duration => {
-    const [hours, minutes] = time.split(':').map(Number);
-    return dayjs.duration({ hours, minutes });
-};
-
-const getHoursRounded = (duration: Duration) => {
-    // Round up to the next multiple of 15
-    const minutes = Math.ceil(duration.as('minutes') / 15) * 15;
-
-    // Return as hours
-    return dayjs.duration(minutes, 'minutes').asHours();
-};
-
-const getHoursRoundedStr = (duration: Duration) =>
-    `(${getHoursRounded(duration)} as hours rounded to next even 15 minutes)`;
 
 const main = async () => {
     const rl = readline.createInterface({
