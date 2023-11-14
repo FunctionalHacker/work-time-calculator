@@ -17,7 +17,7 @@ build: node_modules
 clean:
 	rm -r dist node_modules
 
-release:
+release: build
 	@read -p "Enter version bump (patch, minor, major): " bump && \
 	version=$$(npm version $$bump | grep -oP "(?<=v)[^']+") && \
 	echo "Version $$version created. Run 'make publish' to push the changes and publish the package."
