@@ -1,6 +1,32 @@
-== Work time calculator
+= Work time calculator
 
 An interactive CLI tool to calculate work time.
+
+== Install
+
+You can run this in your terminal
+
+[,shell]
+----
+npm i -g work-time-calculator
+----
+
+If you get a permission denied error, you can run the previous command
+with sudo (**not recommended**), or you can set a local prefix to npm.
+Feel free to create the prefix wherever you like, this is just a
+location I decided to use. The only requirement is that the location
+needs to be readable and writable by your user.
+
+[,shell]
+----
+npm config set prefix '~/.local/share/npm'
+----
+
+After that you can run the installation again. Running the program
+requires that you have your npm prefix in your `$PATH`. You can find
+an example of this in my https://git.korhonen.cc/FunctionalHacker/dotfiles/src/commit/4442252c659179d860d71982a6b705dcecc54ea6/home/.config/zsh/02-env.zsh#L31-L32[dotfiles]. This configuration file is for ZSH but should also work for bash.
+
+== Rationale
 
 This is a highly opinionated CLI tool I built for my specific needs.
 In time, I will probable make it more generic and configurable.
@@ -8,7 +34,7 @@ For now, the following assumptions are made.
 
 * You have an unpaid 30 minute lunch break
 
-=== TODO
+== TODO
 
 * [ ] Configuration file for default settings and altering behaviour in interactive mode
 * [ ] Non-interactive mode with CLI arguments parsing
