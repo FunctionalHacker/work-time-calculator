@@ -2,6 +2,14 @@
     "$schema": "https://json.schemastore.org/package.json",
     "name": "work-time-calculator",
     "license": "MIT",
+    "repository": {
+        "url": "https://git/korhonen.cc/FunctionalHacker/work-time-calculator.git",
+        "type": "git"
+    },
+    "bugs": {
+        "url": "https://git.korhonen.cc/FunctionalHacker/work-time-calculator/issues",
+        "email": "wtc@functionalhacker.korhonen.cc"
+    },
     "version": "0.0.1",
     "description": "CLI work time calculation utility",
     "type": "module",
