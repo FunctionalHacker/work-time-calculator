@@ -131,7 +131,7 @@ const main = async () => {
             log(
                 'You worked',
                 chalk.green(
-                    formatDuration(dayjs.duration({ minutes: Math.round(workLeftMinutes * -1) })),
+                    formatDuration(dayjs.duration(Math.round(workLeftMinutes * -1), 'minutes')),
                     'overtime today',
                 ),
             );
