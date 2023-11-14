@@ -1,4 +1,4 @@
-= MIT License
+== MIT License
 
 Copyright © 2023 - {localyear} Marko Korhonen <marko@korhonen.cc>
 
