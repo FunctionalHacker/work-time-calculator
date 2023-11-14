@@ -12,7 +12,6 @@
         "url": "https://git.korhonen.cc/FunctionalHacker/work-time-calculator/issues",
         "email": "wtc@functionalhacker.korhonen.cc"
     },
-    "type": "module",
     "main": "src/main.ts",
     "bin": {
         "wtc": "bin/wtc"
