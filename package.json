@@ -5,7 +5,7 @@
     "description": "An interactive CLI tool to calculate work time",
     "license": "MIT",
     "repository": {
-        "url": "https://git/korhonen.cc/FunctionalHacker/work-time-calculator.git",
+        "url": "https://git.korhonen.cc/FunctionalHacker/work-time-calculator.git",
         "type": "git"
     },
     "bugs": {
