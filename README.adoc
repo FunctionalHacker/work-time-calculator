@@ -37,9 +37,23 @@ wtc
 
 == Rationale
 
-This is a highly opinionated CLI tool I built for my specific needs.
-In time, I will probable make it more generic and configurable.
-For now, the following assumptions are made.
+Don't know if it's just me but calculating my working hours sometimes
+can get difficult. Especially if you have flexible hours and you end up
+starting at a weird time, f.ex 08:15. This combined with the fact that
+I have to log my hours to many different tasks, at the end of the day
+calculating all this can get very confusing.
+
+To alleviate my pains, I included the following features
+
+* Asks wether you already had lunch or not and accommodates this in the calculation
+* Asks the hours that you already logged and calculates unlogged hours
+* Calculates how much under/overtime you worked
+
+This is a highly opinionated tool I built for my specific needs.
+There probably exists other tools to do the same task
+(maybe even better) but I wanted something simple that fits for my
+needs specifically. In time, I will probably make it more generic and
+configurable. For now, the following assumptions are made.
 
 * You have an unpaid 30 minute lunch break
 
