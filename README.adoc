@@ -2,6 +2,8 @@
 
 An interactive CLI tool to calculate work time.
 
+image::img/demo.png[]
+
 == Install
 
 You can run this in your terminal
