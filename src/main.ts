@@ -104,13 +104,7 @@ const main = async () => {
             loggedAnswer = '00:00';
         }
         const logged = parseDuration(loggedAnswer);
-        let unLogged: Duration | undefined = undefined;
-
-        if (logged.asMinutes() === worked.asMinutes()) {
-            unLogged = worked.subtract(logged);
-        } else {
-            unLogged = worked.subtract(logged);
-        }
+        const unLogged = worked.subtract(logged);
 
         // Log result
         log();
