@@ -26,6 +26,13 @@ After that you can run the installation again. Running the program
 requires that you have your npm prefix in your `$PATH`. You can find
 an example of this in my https://git.korhonen.cc/FunctionalHacker/dotfiles/src/commit/4442252c659179d860d71982a6b705dcecc54ea6/home/.config/zsh/02-env.zsh#L31-L32[dotfiles]. This configuration file is for ZSH but should also work for bash.
 
+After installation, you should be able to run the program with
+
+[,shell]
+----
+wtc
+----
+
 == Rationale
 
 This is a highly opinionated CLI tool I built for my specific needs.
