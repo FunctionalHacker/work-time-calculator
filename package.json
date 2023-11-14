@@ -1,7 +1,7 @@
 {
     "$schema": "https://json.schemastore.org/package.json",
     "name": "work-time-calculator",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "An interactive CLI tool to calculate work time",
     "license": "MIT",
     "repository": {
