@@ -13,6 +13,7 @@
         "email": "wtc@functionalhacker.korhonen.cc"
     },
     "main": "src/main.ts",
+    "type": "module",
     "bin": {
         "wtc": "bin/wtc"
     },
