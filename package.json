@@ -6,6 +6,9 @@
     "description": "CLI work time calculation utility",
     "type": "module",
     "main": "src/main.ts",
+    "bin": {
+        "wtc": "./bin/wtc"
+    },
     "scripts": {
         "build": "tsc"
     },
