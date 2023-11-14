@@ -1,0 +1,14 @@
+== Work time calculator
+
+An interactive CLI tool to calculate work time.
+
+This is a highly opinionated CLI tool I built for my specific needs.
+In time, I will probable make it more generic and configurable.
+For now, the following assumptions are made.
+
+* You have an unpaid 30 minute lunch break
+
+=== TODO
+
+* [ ] Configuration file for default settings and altering behaviour in interactive mode
+* [ ] Non-interactive mode with CLI arguments parsing
