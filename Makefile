@@ -29,4 +29,4 @@ update-npmjs-readme:
 publish: update-npmjs-readme
 	@git push && \
 	git push --tags && \
-	npm publish
+	npm publish --otp $$(pass otp services/npmjs.com)
