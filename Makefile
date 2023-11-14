@@ -15,7 +15,7 @@ build: node_modules
 	npm run build
 
 clean:
-	rm -r target node_modules
+	rm -r dist node_modules
 
 release:
 	@read -p "Enter version bump (patch, minor, major): " bump && \
@@ -23,8 +23,8 @@ release:
 	echo "Version $$version created. Run 'make publish' to push the changes and publish the package."
 
 update-npmjs-readme:
-	asciidoctor -b docbook -o target/README.xml README.adoc
-	pandoc -f docbook -t gfm target/README.xml -o README.md
+	asciidoctor -b docbook -o dist/README.xml README.adoc
+	pandoc -f docbook -t gfm dist/README.xml -o README.md
 
 publish: update-npmjs-readme
 	@git push && \
