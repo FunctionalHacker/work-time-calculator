@@ -24,7 +24,7 @@ release:
 
 update-npmjs-readme:
 	asciidoctor -b docbook -o target/README.xml README.adoc
-	pandoc -f docbook -t markdown_strict target/README.xml -o README.md
+	pandoc -f docbook -t gfm target/README.xml -o README.md
 
 publish: update-npmjs-readme
 	@git push && \
