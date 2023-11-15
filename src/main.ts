@@ -1,4 +1,6 @@
 import chalk from 'chalk';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import dayjs, { Dayjs } from 'dayjs';
 import * as readline from 'readline/promises';
 import { formatDuration, formatTime, formatTimestamp, getHoursRoundedStr } from './format.js';
@@ -12,7 +14,7 @@ const defaultStartTime = '08:00';
 const lunchBreakDuration = dayjs.duration({ minutes: 30 });
 const defaultWorkDayDuration = dayjs.duration({ hours: 7, minutes: 30 });
 
-const main = async () => {
+const ui = async () => {
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -141,4 +143,6 @@ const main = async () => {
     }
 };
 
-main();
+yargs(hideBin(process.argv)).usage('Work time calculator').alias('help', 'h').alias('version', 'v').argv;
+
+ui();
