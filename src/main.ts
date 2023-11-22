@@ -78,9 +78,7 @@ const ui = async () => {
 
         if (askInput.stopTime) {
             const stoppedAnswer = await rl.question(
-                `What time did you stop working (default is current time if you didn't stop yet)? [${formatTime(
-                    defaults.stopTime,
-                )}] `,
+                `What time did you stop working? [${formatTime(defaults.stopTime)}] `,
             );
 
             if (stoppedAnswer !== '') {
