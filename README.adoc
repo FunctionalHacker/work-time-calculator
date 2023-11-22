@@ -52,12 +52,14 @@ To alleviate my pains, I included the following features
 This is a highly opinionated tool I built for my specific needs.
 There probably exists other tools to do the same task
 (maybe even better) but I wanted something simple that fits for my
-needs specifically. In time, I will probably make it more generic and
-configurable. For now, the following assumptions are made.
+needs specifically.
 
-* You have an unpaid 30 minute lunch break
+== Configuration file
+
+See the https://git.korhonen.cc/FunctionalHacker/work-time-calculator/src/branch/main/config.toml[default configuration file]
+for more information on how to override configurations.
 
 == TODO
 
-* [ ] Configuration file for default settings and altering behaviour in interactive mode
+* [x] Configuration file for default settings and altering behaviour in interactive mode
 * [ ] Non-interactive mode with CLI arguments parsing

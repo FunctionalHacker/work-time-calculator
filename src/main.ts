@@ -6,81 +6,95 @@ import * as readline from 'readline/promises';
 import { formatDuration, formatTime, formatTimestamp, getHoursRoundedStr } from './format.js';
 import duration, { Duration } from 'dayjs/plugin/duration.js';
 import { parseDuration, parseTimestamp } from './parse.js';
+import getConfig from './config.js';
 
 dayjs.extend(duration);
 
 const { log, error } = console;
-const defaultStartTime = '08:00';
-const lunchBreakDuration = dayjs.duration({ minutes: 30 });
-const defaultWorkDayDuration = dayjs.duration({ hours: 7, minutes: 30 });
 
 const ui = async () => {
+    const { defaults, askInput } = getConfig();
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
     });
 
     let startedAt: Dayjs | undefined = undefined;
-    const now = dayjs();
+    let stoppedAt: Dayjs | undefined = undefined;
+    let stoppedWorking = false;
 
     try {
         // Get work day duration
         let workDayDuration: Duration | undefined = undefined;
 
-        const durationAnswer = await rl.question(
-            `How long is your work day today, excluding the lunch break? [${formatDuration(
-                defaultWorkDayDuration,
-                true,
-            )}] `,
-        );
-        if (durationAnswer !== '') {
-            workDayDuration = parseDuration(durationAnswer);
-            if (workDayDuration.asMinutes() <= 0) {
-                error(
-                    chalk.red(
-                        `Failed to parse ${durationAnswer} to duration, using default work day duration ${defaultWorkDayDuration}`,
-                    ),
-                );
-                workDayDuration = undefined;
+        if (askInput.workDayLength) {
+            const durationAnswer = await rl.question(
+                `How long is your work day today, excluding the lunch break? [${formatDuration(
+                    defaults.workDayDuration,
+                    true,
+                )}] `,
+            );
+            if (durationAnswer !== '') {
+                workDayDuration = parseDuration(durationAnswer);
+                if (workDayDuration.asMinutes() <= 0) {
+                    error(
+                        chalk.red(
+                            `Failed to parse ${durationAnswer} to duration, using default work day duration ${formatDuration(
+                                defaults.workDayDuration,
+                                true,
+                            )}`,
+                        ),
+                    );
+                    workDayDuration = undefined;
+                }
             }
         }
 
         if (!workDayDuration) {
-            workDayDuration = defaultWorkDayDuration;
+            workDayDuration = defaults.workDayDuration;
         }
 
-        // Calculate worked time
-        const startTimeAnswer = await rl.question(`What time did you start work today? [${defaultStartTime}] `);
-        if (startTimeAnswer !== '') {
-            startedAt = parseTimestamp(startTimeAnswer);
-            if (!startedAt.isValid()) {
-                error(
-                    chalk.red(
-                        `Failed to parse ${startTimeAnswer} to time, using default start time ${defaultStartTime}`,
-                    ),
-                );
+        if (askInput.startTime) {
+            const startTimeAnswer = await rl.question(
+                `What time did you start work today? [${formatTime(defaults.startTime)}] `,
+            );
+            if (startTimeAnswer !== '') {
+                startedAt = parseTimestamp(startTimeAnswer);
+                if (!startedAt.isValid()) {
+                    error(
+                        chalk.red(
+                            `Failed to parse ${startTimeAnswer} to time, using default start time ${formatTime(
+                                defaults.startTime,
+                            )}`,
+                        ),
+                    );
+                }
             }
         }
 
         if (!startedAt?.isValid()) {
-            startedAt = parseTimestamp(defaultStartTime);
+            startedAt = defaults.startTime;
         }
 
-        let stoppedWorking = false;
-        let stoppedAt: Dayjs | undefined = undefined;
-        const stoppedAnswer = await rl.question(
-            `What time did you stop working (default is current time if you didn't stop yet)? [${formatTime(now)}] `,
-        );
+        if (askInput.stopTime) {
+            const stoppedAnswer = await rl.question(
+                `What time did you stop working (default is current time if you didn't stop yet)? [${formatTime(
+                    defaults.stopTime,
+                )}] `,
+            );
 
-        if (stoppedAnswer === '') {
-            stoppedAt = now;
-        } else {
-            stoppedWorking = true;
-            stoppedAt = parseTimestamp(stoppedAnswer);
-            if (!stoppedAt.isValid()) {
-                error(`Failed to parse ${stoppedAnswer} to time, using current time`);
-                stoppedAt = dayjs();
+            if (stoppedAnswer !== '') {
+                stoppedWorking = true;
+                stoppedAt = parseTimestamp(stoppedAnswer);
+                if (!stoppedAt.isValid()) {
+                    error(`Failed to parse ${stoppedAnswer} to time, using current time`);
+                    stoppedAt = dayjs();
+                }
             }
+        }
+
+        if (!stoppedAt) {
+            stoppedAt = defaults.stopTime;
         }
 
         if (stoppedAt.isSame(startedAt) || stoppedAt.isBefore(startedAt)) {
@@ -96,8 +110,11 @@ const ui = async () => {
 
         let worked = dayjs.duration(stoppedAt.diff(startedAt));
 
-        if ((await rl.question('Did you have a lunch break? [Y/n] ')).toLowerCase() !== 'n') {
-            worked = worked.subtract(lunchBreakDuration);
+        const hadLunch =
+            askInput.hadLunch && (await rl.question('Did you have a lunch break? [Y/n] ')).toLowerCase() !== 'n';
+
+        if (hadLunch) {
+            worked = worked.subtract(defaults.lunchBreakDuration);
         }
 
         // Calculate unlogged time
