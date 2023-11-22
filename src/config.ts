@@ -6,8 +6,6 @@ import { Dayjs } from 'dayjs';
 import { Duration } from 'dayjs/plugin/duration.js';
 import { parseDuration, parseTimestamp } from './parse.js';
 
-const { debug } = console;
-
 interface Config {
     defaults: {
         workDayDuration: Duration;
@@ -57,7 +55,6 @@ const getConfig = (): Config => {
     if (fs.existsSync(configFilePath)) {
         configData = toml.parse(fs.readFileSync(configFilePath, 'utf8')) as unknown as RawConfig;
     } else {
-        debug('Configuration file does not exist, loading defaults');
         configData = defaultConfig;
     }
 
