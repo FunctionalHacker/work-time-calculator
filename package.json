@@ -34,8 +34,7 @@
         "@typescript-eslint/eslint-plugin": "^6.10.0",
         "eslint-config-prettier": "^9.0.0",
         "rollup": "^4.5.1",
-        "tslib": "^2.6.2",
-        "typescript": "^5.2.2"
+        "tslib": "^2.6.2"
     },
     "dependencies": {
         "@iarna/toml": "^2.2.5",
