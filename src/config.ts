@@ -17,6 +17,7 @@ interface RawConfig extends Omit<WtcConfig, 'defaults'> {
 
 const defaultConfig: RawConfig = {
     language: Language.en,
+    timestampFormat: 'YYYY-MM-DD HH:mm',
     defaults: {
         workDayDuration: '07:30',
         lunchBreakDuration: '00:30',
@@ -45,6 +46,7 @@ const getConfig = (): WtcConfig => {
 
     return {
         language: configData.language ?? defaultConfig.language,
+        timestampFormat: configData.timestampFormat ?? defaultConfig.timestampFormat,
         defaults: {
             workDayDuration: parseDuration(
                 configData.defaults.workDayDuration ?? defaultConfig.defaults.workDayDuration,

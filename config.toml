@@ -9,6 +9,11 @@
 # Currently supported languages are "en", "fi"
 language = "en"
 
+# Time format used to display timestamps (started, stopped etc.)
+# Refer to the dayjs documentation on how to set this https://day.js.org/docs/en/display/format
+# For example, the finnish format would be "MM.DD.YYYY [kello] HH.mm"
+timestampFormat = "YYYY-MM-DD HH:mm"
+
 # This section is for default values for inputs
 [defaults]
 

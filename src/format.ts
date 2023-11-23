@@ -3,8 +3,6 @@ import { Duration } from 'dayjs/plugin/duration.js';
 import Language from './types/Language';
 import { MessageKey, message } from './i18n';
 
-export const formatTimestamp = (timestamp: Dayjs): string => timestamp.format('YYYY-MM-DD HH:mm');
-
 export const formatTime = (time: Dayjs): string => time.format('HH:mm');
 
 export const formatDuration =

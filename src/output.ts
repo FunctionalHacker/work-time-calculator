@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { formatDuration, formatTimestamp, getHoursRoundedStr } from './format';
+import { formatDuration, getHoursRoundedStr } from './format';
 import { WtcPromptResult } from './types/WtcPromptResult';
 import { MessageKey, message } from './i18n.js';
 import WtcConfig from './types/WtcConfig';
@@ -7,16 +7,18 @@ import WtcConfig from './types/WtcConfig';
 const { log } = console;
 
 const output = (result: WtcPromptResult, config: WtcConfig) => {
-    const msg = message(config.language);
-    const fmtDuration = formatDuration(config.language);
-    const hoursRounded = getHoursRoundedStr(config.language);
+    const {language, timestampFormat} = config;
+    const msg = message(language);
+    const fmtDuration = formatDuration(language);
+    const hoursRounded = getHoursRoundedStr(language);
     const { startedAt, stoppedAt, stoppedWorking, worked, unLogged, workLeft, workedOvertime } = result;
+
     log();
-    log(msg(MessageKey.startedWorking), formatTimestamp(startedAt));
+    log(msg(MessageKey.startedWorking), startedAt.format(timestampFormat));
     log(
         (stoppedWorking ? msg(MessageKey.stoppedWorking) : msg(MessageKey.hoursCalculated)) +
             ` ${msg(MessageKey.klo)}:`,
-        formatTimestamp(stoppedAt),
+        stoppedAt.format(timestampFormat)
     );
     log(msg(MessageKey.workedToday), chalk.green(fmtDuration(worked)), chalk.yellow(hoursRounded(worked)));
 

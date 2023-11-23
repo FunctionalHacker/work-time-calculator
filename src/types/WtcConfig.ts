@@ -4,6 +4,7 @@ import Language from './Language.js';
 
 export default interface WtcConfig {
     language: Language,
+    timestampFormat: string,
     defaults: {
         workDayDuration: Duration;
         lunchBreakDuration: Duration;
