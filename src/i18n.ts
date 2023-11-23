@@ -7,6 +7,7 @@ export enum MessageKey {
     parseTimeFailed,
     startTimeBeforeStopTimeError,
     promptLunchBreak,
+    unpaidLunch,
     promptLogged,
     none,
     startedWorking,
@@ -45,6 +46,10 @@ const messages: Record<MessageKey, Record<Language, string>> = {
     [MessageKey.promptLunchBreak]: {
         [Language.en]: 'Did you have a lunch break? [y/N]: ',
         [Language.fi]: 'Piditkö jo lounastauon? [k/E]: ',
+    },
+    [MessageKey.unpaidLunch]: {
+        [Language.en]: 'Unpaid lunch duration:',
+        [Language.fi]: 'Palkattoman lounaan pituus:',
     },
     [MessageKey.promptLogged]: {
         [Language.en]: 'How many hours did you log already? [00:00] ',

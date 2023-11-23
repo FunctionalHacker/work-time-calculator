@@ -6,10 +6,10 @@ import { parseDuration, parseTimestamp } from './parse.js';
 import WtcConfig from './types/WtcConfig.js';
 import Language from './types/Language.js';
 
-interface RawConfig extends Omit<WtcConfig, 'defaults'> {
+interface RawConfig extends Omit<WtcConfig, 'lunchBreakDuration' | 'defaults'> {
+    lunchBreakDuration: string;
     defaults: {
         workDayDuration: string;
-        lunchBreakDuration: string;
         startTime: string;
         stopTime: string;
     };
@@ -18,9 +18,9 @@ interface RawConfig extends Omit<WtcConfig, 'defaults'> {
 const defaultConfig: RawConfig = {
     language: Language.en,
     timestampFormat: 'YYYY-MM-DD HH:mm',
+    lunchBreakDuration: '00:30',
     defaults: {
         workDayDuration: '07:30',
-        lunchBreakDuration: '00:30',
         startTime: '08:00',
         stopTime: 'now',
     },
@@ -29,7 +29,6 @@ const defaultConfig: RawConfig = {
         startTime: true,
         stopTime: true,
         logged: true,
-        hadLunch: true,
     },
 };
 
@@ -47,12 +46,10 @@ const getConfig = (): WtcConfig => {
     return {
         language: configData.language ?? defaultConfig.language,
         timestampFormat: configData.timestampFormat ?? defaultConfig.timestampFormat,
+        lunchBreakDuration: parseDuration(configData.lunchBreakDuration),
         defaults: {
             workDayDuration: parseDuration(
                 configData.defaults.workDayDuration ?? defaultConfig.defaults.workDayDuration,
-            ),
-            lunchBreakDuration: parseDuration(
-                configData.defaults.lunchBreakDuration ?? defaultConfig.defaults.workDayDuration,
             ),
             startTime: parseTimestamp(configData.defaults.startTime ?? defaultConfig.defaults.startTime),
             stopTime: parseTimestamp(configData.defaults.stopTime ?? defaultConfig.defaults.stopTime),
@@ -62,7 +59,6 @@ const getConfig = (): WtcConfig => {
             startTime: configData.askInput.startTime ?? defaultConfig.askInput.startTime,
             stopTime: configData.askInput.stopTime ?? defaultConfig.askInput.stopTime,
             logged: configData.askInput.logged ?? defaultConfig.askInput.logged,
-            hadLunch: configData.askInput.hadLunch ?? defaultConfig.askInput.hadLunch,
         },
     };
 };

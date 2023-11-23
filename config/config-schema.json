@@ -8,6 +8,10 @@
     },
     "type": "object",
     "properties": {
+        "lunchBreakDuration": {
+            "type": "string",
+            "description": "Remove or set as \"00:00\" if you don't have an unpaid lunch break or if you normally log your lunch break hours"
+        },
         "language": {
             "$ref": "#/definitions/language",
             "description": "The language of the application. Currently supported languages are 'en', 'fi'"
@@ -19,10 +23,6 @@
         "defaults": {
             "type": "object",
             "properties": {
-                "lunchBreakDuration": {
-                    "type": "string",
-                    "description": "Set as \"00:00\" if you don't have an unpaid lunch break or if you normally log your lunch break hours"
-                },
                 "workDayDuration": { "type": "string", "description": "Your work day duration" },
                 "startTime": { "type": "string", "description": "The time you start working" },
                 "stopTime": {

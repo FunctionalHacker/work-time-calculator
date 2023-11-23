@@ -5,9 +5,9 @@ import Language from './Language.js';
 export default interface WtcConfig {
     language: Language,
     timestampFormat: string,
+    lunchBreakDuration?: Duration;
     defaults: {
         workDayDuration: Duration;
-        lunchBreakDuration: Duration;
         startTime: Dayjs;
         stopTime: Dayjs;
     };
@@ -16,6 +16,5 @@ export default interface WtcConfig {
         startTime: boolean;
         stopTime: boolean;
         logged: boolean;
-        hadLunch: boolean;
     };
 }

@@ -16,7 +16,7 @@ const { error } = console;
 const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
     const msg = message(config.language);
     const fmtDuration = formatDuration(config.language);
-    const { defaults, askInput } = config;
+    const { defaults, askInput, lunchBreakDuration } = config;
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -91,13 +91,13 @@ const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
         let worked = dayjs.duration(stoppedAt.diff(startedAt));
 
         let hadLunch = false;
-        if (askInput.hadLunch) {
+        if (lunchBreakDuration) {
             const lunchAnswer = (await rl.question(msg(MessageKey.promptLunchBreak))).toLowerCase();
-            hadLunch = lunchAnswer === 'y' || lunchAnswer === 'k';
-        }
 
-        if (hadLunch) {
-            worked = worked.subtract(defaults.lunchBreakDuration);
+            if (lunchAnswer === 'y' || lunchAnswer === 'k') {
+                hadLunch = true
+                worked = worked.subtract(lunchBreakDuration);
+            }
         }
 
         // Calculate unlogged time

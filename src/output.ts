@@ -7,20 +7,24 @@ import WtcConfig from './types/WtcConfig';
 const { log } = console;
 
 const output = (result: WtcPromptResult, config: WtcConfig) => {
-    const {language, timestampFormat} = config;
+    const { language, timestampFormat } = config;
     const msg = message(language);
     const fmtDuration = formatDuration(language);
     const hoursRounded = getHoursRoundedStr(language);
-    const { startedAt, stoppedAt, stoppedWorking, worked, unLogged, workLeft, workedOvertime } = result;
+    const { startedAt, stoppedAt, stoppedWorking, worked, unLogged, workLeft, workedOvertime, hadLunch } = result;
 
     log();
     log(msg(MessageKey.startedWorking), startedAt.format(timestampFormat));
     log(
         (stoppedWorking ? msg(MessageKey.stoppedWorking) : msg(MessageKey.hoursCalculated)) +
             ` ${msg(MessageKey.klo)}:`,
-        stoppedAt.format(timestampFormat)
+        stoppedAt.format(timestampFormat),
     );
     log(msg(MessageKey.workedToday), chalk.green(fmtDuration(worked)), chalk.yellow(hoursRounded(worked)));
+
+    if (hadLunch) {
+        log(msg(MessageKey.unpaidLunch), chalk.green(fmtDuration(config.defaults.lunchBreakDuration)));
+    }
 
     const unLoggedMinutes = unLogged.asMinutes();
     if (unLoggedMinutes >= 0) {

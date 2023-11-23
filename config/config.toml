@@ -8,6 +8,10 @@
 # usually ~/.config/wtc/config.toml
 # For windows, I don't know.
 
+# Remove or set as "00:00" if you don't have an unpaid lunch break
+# or if you normally log your lunch break hours
+lunchBreakDuration = "00:30"
+
 # The language of the application.
 # Currently supported languages are "en", "fi"
 language = "en"
@@ -19,10 +23,6 @@ timestampFormat = "YYYY-MM-DD HH:mm"
 
 # This section is for default values for inputs
 [defaults]
-
-# Set as "00:00" if you don't have an unpaid lunch break
-# or if you normally log your lunch break hours
-lunchBreakDuration = "00:30"
 
 # Your work day duration
 workDayDuration = "07:30"
@@ -41,6 +41,3 @@ workDayDuration = true
 startTime = true
 stopTime = true
 logged = true
-
-# It is assumed that you didn't have lunch if this is false
-hadLunch = true
