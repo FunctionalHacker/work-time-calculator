@@ -10,6 +10,19 @@ const config = {
         file: 'dist/wtc',
     },
     plugins: [typescript(), terser(), shebang({ include: 'dist/wtc' })],
+    external: [
+        '@iarna/toml',
+        'chalk',
+        'dayjs',
+        'dayjs/plugin/customParseFormat.js',
+        'dayjs/plugin/duration.js',
+        'fs',
+        'path',
+        'readline/promises',
+        'xdg-basedir',
+        'yargs',
+        'yargs/helpers',
+    ],
 };
 
 export default config;
