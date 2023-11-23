@@ -13,6 +13,7 @@ node_modules:
 
 build: node_modules
 	npm run build
+	chmod +x dist/wtc
 
 clean:
 	rm -r dist node_modules
