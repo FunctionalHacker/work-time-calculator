@@ -10,5 +10,5 @@ export interface WtcPromptResult {
     hadLunch: boolean;
     worked: Duration;
     workLeft: Duration;
-    workedOverTime?: Duration;
+    workedOvertime?: Duration;
 }

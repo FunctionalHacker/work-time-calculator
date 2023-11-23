@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import { Duration } from 'dayjs/plugin/duration';
-import getConfig from './config';
 import { parseDuration, parseTimestamp } from './parse';
 import * as readline from 'readline/promises';
 import { formatDuration, formatTime } from './format';
@@ -110,10 +109,10 @@ const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
         const unLogged = worked.subtract(logged);
         const workLeft = workDayDuration.subtract(worked);
         let workLeftMinutes = workLeft.asMinutes();
-        let workedOverTime: Duration | undefined;
+        let workedOvertime: Duration | undefined;
 
         if (workLeftMinutes < 0) {
-            workedOverTime = dayjs.duration(Math.round(workLeftMinutes * -1), 'minutes');
+            workedOvertime = dayjs.duration(Math.round(workLeftMinutes * -1), 'minutes');
         }
 
         return {
@@ -125,6 +124,7 @@ const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
             hadLunch,
             worked,
             workLeft,
+            workedOvertime,
         };
     } finally {
         rl.close();

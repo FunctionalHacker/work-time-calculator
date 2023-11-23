@@ -10,7 +10,7 @@ const output = (result: WtcPromptResult, config: WtcConfig) => {
     const msg = message(config.language);
     const fmtDuration = formatDuration(config.language);
     const hoursRounded = getHoursRoundedStr(config.language);
-    const { startedAt, stoppedAt, stoppedWorking, worked, unLogged, workLeft, workedOverTime } = result;
+    const { startedAt, stoppedAt, stoppedWorking, worked, unLogged, workLeft, workedOvertime } = result;
     log();
     log(msg(MessageKey.startedWorking), formatTimestamp(startedAt));
     log(
@@ -33,8 +33,8 @@ const output = (result: WtcPromptResult, config: WtcConfig) => {
 
     if (workLeft.asMinutes() > 0) {
         log(msg(MessageKey.workLeft, chalk.green(fmtDuration(workLeft))));
-    } else if (workedOverTime) {
-        log(msg(MessageKey.workedOvertime, chalk.green(fmtDuration(workedOverTime))));
+    } else if (workedOvertime) {
+        log(msg(MessageKey.workedOvertime, chalk.green(fmtDuration(workedOvertime))));
     }
 };
 
