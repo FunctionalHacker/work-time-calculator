@@ -37,13 +37,7 @@ wtc
 
 == Update
 
-The easiest way to update is to first remove the program and then install again
-
-[,shell]
-----
-npm r -g work-time-calculator
-npm i -g work-time-calculator
-----
+To update, just run the install command again
 
 == Rationale
 

@@ -1,15 +1,14 @@
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
-import shebang from 'rollup-plugin-add-shebang';
 
 /** @type {import('rollup').RollupOptions} */
 const config = {
     input: 'src/main.ts',
     output: {
         format: 'esm',
-        file: 'dist/wtc',
+        file: 'dist/wtc.js',
     },
-    plugins: [typescript(), terser(), shebang({ include: 'dist/wtc' })],
+    plugins: [typescript(), terser()],
     external: [
         '@iarna/toml',
         'chalk',
