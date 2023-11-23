@@ -25,7 +25,7 @@ const output = (result: WtcPromptResult, config: WtcConfig) => {
         log(
             msg(MessageKey.unloggedToday),
             unLoggedMinutes === 0 ? chalk.green(msg(MessageKey.none)) : chalk.red(fmtDuration(unLogged)),
-            chalk.yellow(hoursRounded(unLogged)),
+            unLoggedMinutes === 0 ? '' : chalk.yellow(hoursRounded(unLogged)),
         );
     } else if (unLoggedMinutes < 0) {
         log(chalk.red(msg(MessageKey.loggedOver, fmtDuration(unLogged))), chalk.yellow(hoursRounded(unLogged)));
