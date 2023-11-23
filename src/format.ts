@@ -23,7 +23,7 @@ export const formatDuration =
                     ? `H [tunti${duration.hours() > 1 ? 'a' : ''} ja] m [minuuttia]`
                     : duration.hours() > 0
                     ? `H [tunti${duration.hours() > 1 ? 'a' : ''}]`
-                    : 'm [minuttia]';
+                    : 'm [minuuttia]';
         } else {
             formatString =
                 duration.hours() > 0 && duration.minutes() > 0
