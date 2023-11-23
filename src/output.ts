@@ -3,8 +3,11 @@ import { formatDuration, getHoursRoundedStr } from './format';
 import { WtcPromptResult } from './types/WtcPromptResult';
 import { MessageKey, message } from './i18n.js';
 import WtcConfig from './types/WtcConfig';
+import duration from 'dayjs/plugin/duration.js';
+import dayjs from 'dayjs';
 
 const { log } = console;
+dayjs.extend(duration);
 
 const output = (result: WtcPromptResult, config: WtcConfig) => {
     const { language, timestampFormat } = config;
@@ -34,7 +37,8 @@ const output = (result: WtcPromptResult, config: WtcConfig) => {
             unLoggedMinutes === 0 ? '' : chalk.yellow(hoursRounded(unLogged)),
         );
     } else if (unLoggedMinutes < 0) {
-        log(chalk.red(msg(MessageKey.loggedOver, fmtDuration(unLogged))), chalk.yellow(hoursRounded(unLogged)));
+        const overLogged = dayjs.duration(Math.abs(unLogged.asMilliseconds()), 'milliseconds');
+        log(chalk.red(msg(MessageKey.loggedOver, fmtDuration(overLogged))));
     }
 
     if (workLeft.asMinutes() > 0) {
