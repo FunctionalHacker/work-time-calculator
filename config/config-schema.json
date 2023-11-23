@@ -2,7 +2,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "type": "object",
     "properties": {
-        "lunchBreakDuration": {
+        "unpaidLunchBreakDuration": {
             "type": "string",
             "description": "Comment out or remove if you don't have an unpaid lunch break or if you normally log your lunch break hours"
         },
