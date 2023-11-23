@@ -8,9 +8,9 @@
 # usually ~/.config/wtc/config.toml
 # For windows, I don't know.
 
-# Remove or set as "00:00" if you don't have an unpaid lunch break
+# Comment out or remove if you don't have an unpaid lunch break
 # or if you normally log your lunch break hours
-lunchBreakDuration = "00:30"
+unpaidLunchBreakDuration = "00:30"
 
 # The language of the application.
 # Currently supported languages are "en", "fi"

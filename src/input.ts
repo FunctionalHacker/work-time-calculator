@@ -16,7 +16,7 @@ const { error } = console;
 const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
     const msg = message(config.language);
     const fmtDuration = formatDuration(config.language);
-    const { defaults, askInput, lunchBreakDuration } = config;
+    const { defaults, askInput, unpaidLunchBreakDuration: lunchBreakDuration } = config;
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -32,7 +32,11 @@ const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
 
         if (askInput.workDayLength) {
             const durationAnswer = await rl.question(
-                msg(MessageKey.promptWorkDayDuration, fmtDuration(defaults.workDayDuration, true)),
+                msg(
+                    MessageKey.promptWorkDayDuration,
+                    config.unpaidLunchBreakDuration ? msg(MessageKey.excludingLunch) : '',
+                    fmtDuration(defaults.workDayDuration, true),
+                ),
             );
             if (durationAnswer !== '') {
                 workDayDuration = parseDuration(durationAnswer);
@@ -92,10 +96,21 @@ const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
 
         let hadLunch = false;
         if (lunchBreakDuration) {
-            const lunchAnswer = (await rl.question(msg(MessageKey.promptLunchBreak))).toLowerCase();
+            const lunchAnswer = (
+                await rl.question(
+                    msg(
+                        MessageKey.promptLunchBreak,
+                        msg(config.defaults.hadLunch ? MessageKey.promptYesNoYes : MessageKey.promptYesNoNo),
+                    ),
+                )
+            ).toLowerCase();
 
-            if (lunchAnswer === 'y' || lunchAnswer === 'k') {
-                hadLunch = true
+            if (
+                lunchAnswer === 'y' ||
+                lunchAnswer === 'k' ||
+                (config.defaults.hadLunch && lunchAnswer !== 'n' && lunchAnswer !== 'e')
+            ) {
+                hadLunch = true;
                 worked = worked.subtract(lunchBreakDuration);
             }
         }

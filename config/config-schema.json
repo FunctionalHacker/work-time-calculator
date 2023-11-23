@@ -4,7 +4,7 @@
     "properties": {
         "lunchBreakDuration": {
             "type": "string",
-            "description": "Remove or set as \"00:00\" if you don't have an unpaid lunch break or if you normally log your lunch break hours"
+            "description": "Comment out or remove if you don't have an unpaid lunch break or if you normally log your lunch break hours"
         },
         "language": {
             "type": "string",
@@ -23,7 +23,8 @@
                 "stopTime": {
                     "type": ["string", "null"],
                     "description": "The time you stop working. Can either be 'now' or a time"
-                }
+                },
+                "hadLunch": { "type": "boolean", "description": "Wether you had lunch already or not" }
             },
             "additionalProperties": false,
             "description": "Default values for inputs"
@@ -37,8 +38,7 @@
                 },
                 "startTime": { "type": "boolean", "description": "Disable prompt for start time if set to false" },
                 "stopTime": { "type": "boolean", "description": "Disable prompt for stop time if set to false" },
-                "logged": { "type": "boolean", "description": "Disable prompt for logged time if set to false" },
-                "hadLunch": { "type": "boolean", "description": "Assumed that you didn't have lunch if this is false" }
+                "logged": { "type": "boolean", "description": "Disable prompt for logged time if set to false" }
             },
             "additionalProperties": false,
             "description": "Settings to disable prompts"

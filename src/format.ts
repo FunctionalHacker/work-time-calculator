@@ -7,7 +7,8 @@ export const formatTime = (time: Dayjs): string => time.format('HH:mm');
 
 export const formatDuration =
     (language: Language) =>
-    (duration: Duration, short?: boolean): string => {
+    (duration?: Duration, short?: boolean): string => {
+        duration = duration ?? dayjs.duration(0, 'minutes');
         if (duration.hours() === 0 && duration.minutes() === 0) {
             return 'none';
         }

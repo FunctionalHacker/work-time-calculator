@@ -1,12 +1,16 @@
 import Language from './types/Language';
 
+
 export enum MessageKey {
     promptWorkDayDuration,
+    excludingLunch,
     promptStartTime,
     promptStopTime,
     parseTimeFailed,
     startTimeBeforeStopTimeError,
     promptLunchBreak,
+    promptYesNoYes,
+    promptYesNoNo,
     unpaidLunch,
     promptLogged,
     none,
@@ -24,8 +28,12 @@ export enum MessageKey {
 
 const messages: Record<MessageKey, Record<Language, string>> = {
     [MessageKey.promptWorkDayDuration]: {
-        [Language.en]: 'How long is your work day today, excluding the lunch break? [{0}]: ',
-        [Language.fi]: 'Kuinka pitkä työpäiväsi on tänään, poisluettuna lounastauko? [{0}]: ',
+        [Language.en]: 'How long is your work day today{0}? [{1}]: ',
+        [Language.fi]: 'Kuinka pitkä työpäiväsi on tänään{0}? [{1}]: ',
+    },
+    [MessageKey.excludingLunch]: {
+        [Language.en]: ', excluding the lunch break',
+        [Language.fi]: ', poisluettuna lounastauko',
     },
     [MessageKey.promptStartTime]: {
         [Language.en]: 'What time did you start work today? [{0}]: ',
@@ -44,12 +52,20 @@ const messages: Record<MessageKey, Record<Language, string>> = {
         [Language.fi]: 'Aloitusaika ({0}) pitää olla ennen lopetusaikaa ({1}). Ohjelma sammuu',
     },
     [MessageKey.promptLunchBreak]: {
-        [Language.en]: 'Did you have a lunch break? [y/N]: ',
-        [Language.fi]: 'Piditkö jo lounastauon? [k/E]: ',
+        [Language.en]: 'Did you have a lunch break? [{0}]: ',
+        [Language.fi]: 'Piditkö jo lounastauon? [{0}]: ',
+    },
+    [MessageKey.promptYesNoYes]: {
+        [Language.en]: 'Y/n',
+        [Language.fi]: 'K/e',
+    },
+    [MessageKey.promptYesNoNo]: {
+        [Language.en]: 'y/N',
+        [Language.fi]: 'k/E',
     },
     [MessageKey.unpaidLunch]: {
-        [Language.en]: 'Unpaid lunch duration:',
-        [Language.fi]: 'Palkattoman lounaan pituus:',
+        [Language.en]: 'Unpaid lunch:',
+        [Language.fi]: 'Palkaton lounas:',
     },
     [MessageKey.promptLogged]: {
         [Language.en]: 'How many hours did you log already? [00:00] ',

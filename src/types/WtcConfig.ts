@@ -5,11 +5,12 @@ import Language from './Language.js';
 export default interface WtcConfig {
     language: Language,
     timestampFormat: string,
-    lunchBreakDuration?: Duration;
+    unpaidLunchBreakDuration?: Duration;
     defaults: {
         workDayDuration: Duration;
         startTime: Dayjs;
         stopTime: Dayjs;
+        hadLunch: boolean;
     };
     askInput: {
         workDayLength: boolean;

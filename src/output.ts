@@ -23,7 +23,7 @@ const output = (result: WtcPromptResult, config: WtcConfig) => {
     log(msg(MessageKey.workedToday), chalk.green(fmtDuration(worked)), chalk.yellow(hoursRounded(worked)));
 
     if (hadLunch) {
-        log(msg(MessageKey.unpaidLunch), chalk.green(fmtDuration(config.defaults.lunchBreakDuration)));
+        log(msg(MessageKey.unpaidLunch), chalk.green(fmtDuration(config.unpaidLunchBreakDuration)));
     }
 
     const unLoggedMinutes = unLogged.asMinutes();
