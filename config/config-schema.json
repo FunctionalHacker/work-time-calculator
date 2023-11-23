@@ -1,11 +1,5 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "definitions": {
-        "language": {
-            "type": "string",
-            "enum": ["en", "fi"]
-        }
-    },
     "type": "object",
     "properties": {
         "lunchBreakDuration": {
@@ -13,7 +7,8 @@
             "description": "Remove or set as \"00:00\" if you don't have an unpaid lunch break or if you normally log your lunch break hours"
         },
         "language": {
-            "$ref": "#/definitions/language",
+            "type": "string",
+            "enum": ["en", "fi"],
             "description": "The language of the application. Currently supported languages are 'en', 'fi'"
         },
         "timestampFormat": {
