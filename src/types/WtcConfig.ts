@@ -13,7 +13,7 @@ export default interface WtcConfig {
         hadLunch: boolean;
     };
     askInput: {
-        workDayLength: boolean;
+        workDayDuration: boolean;
         startTime: boolean;
         stopTime: boolean;
         logged: boolean;

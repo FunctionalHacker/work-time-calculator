@@ -30,7 +30,7 @@ const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
         // Get work day duration
         let workDayDuration: Duration | undefined = undefined;
 
-        if (askInput.workDayLength) {
+        if (askInput.workDayDuration) {
             const durationAnswer = await rl.question(
                 msg(
                     MessageKey.promptWorkDayDuration,

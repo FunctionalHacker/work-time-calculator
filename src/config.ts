@@ -27,7 +27,7 @@ const defaultConfig: RawConfig = {
         hadLunch: true,
     },
     askInput: {
-        workDayLength: true,
+        workDayDuration: true,
         startTime: true,
         stopTime: true,
         logged: true,
@@ -38,30 +38,32 @@ const getConfig = (): WtcConfig => {
     const configDir = xdgConfig || path.join(process.env.HOME ?? './', '.config');
     let configFilePath = path.join(configDir, 'wtc', 'config.toml');
 
-    let configData: RawConfig;
+    let configData: Partial<RawConfig>;
     if (fs.existsSync(configFilePath)) {
         configData = toml.parse(fs.readFileSync(configFilePath, 'utf8')) as unknown as RawConfig;
     } else {
         configData = defaultConfig;
     }
 
+    const { language, timestampFormat, unpaidLunchBreakDuration, defaults, askInput } = configData;
+
     return {
-        language: configData.language ?? defaultConfig.language,
-        timestampFormat: configData.timestampFormat ?? defaultConfig.timestampFormat,
-        unpaidLunchBreakDuration: !configData.unpaidLunchBreakDuration ? undefined : parseDuration(configData.unpaidLunchBreakDuration),
+        language: language ?? defaultConfig.language,
+        timestampFormat: timestampFormat ?? defaultConfig.timestampFormat,
+        unpaidLunchBreakDuration: !unpaidLunchBreakDuration
+            ? undefined
+            : parseDuration(unpaidLunchBreakDuration),
         defaults: {
-            workDayDuration: parseDuration(
-                configData.defaults.workDayDuration ?? defaultConfig.defaults.workDayDuration,
-            ),
-            startTime: parseTimestamp(configData.defaults.startTime ?? defaultConfig.defaults.startTime),
-            stopTime: parseTimestamp(configData.defaults.stopTime ?? defaultConfig.defaults.stopTime),
-            hadLunch: configData.defaults.hadLunch ?? defaultConfig.defaults.hadLunch,
+            workDayDuration: parseDuration(defaults?.workDayDuration ?? defaultConfig.defaults.workDayDuration),
+            startTime: parseTimestamp(defaults?.startTime ?? defaultConfig.defaults.startTime),
+            stopTime: parseTimestamp(defaults?.stopTime ?? defaultConfig.defaults.stopTime),
+            hadLunch: defaults?.hadLunch ?? defaultConfig.defaults.hadLunch,
         },
         askInput: {
-            workDayLength: configData.askInput.workDayLength ?? defaultConfig.askInput.workDayLength,
-            startTime: configData.askInput.startTime ?? defaultConfig.askInput.startTime,
-            stopTime: configData.askInput.stopTime ?? defaultConfig.askInput.stopTime,
-            logged: configData.askInput.logged ?? defaultConfig.askInput.logged,
+            workDayDuration: askInput?.workDayDuration ?? defaultConfig.askInput.workDayDuration,
+            startTime: askInput?.startTime ?? defaultConfig.askInput.startTime,
+            stopTime: askInput?.stopTime ?? defaultConfig.askInput.stopTime,
+            logged: askInput?.logged ?? defaultConfig.askInput.logged,
         },
     };
 };
