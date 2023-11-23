@@ -7,13 +7,17 @@ import { formatDuration, formatTime } from './format';
 import dayjs, { Dayjs } from 'dayjs';
 import { WtcPromptResult } from './types/WtcPromptResult';
 import duration from 'dayjs/plugin/duration.js';
+import WtcConfig from './types/WtcConfig';
+import { MessageKey, message } from './i18n';
 
 dayjs.extend(duration);
 
 const { error } = console;
 
-const input = async (): Promise<WtcPromptResult> => {
-    const { defaults, askInput } = getConfig();
+const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
+    const msg = message(config.language);
+    const fmtDuration = formatDuration(config.language);
+    const { defaults, askInput } = config;
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -29,20 +33,14 @@ const input = async (): Promise<WtcPromptResult> => {
 
         if (askInput.workDayLength) {
             const durationAnswer = await rl.question(
-                `How long is your work day today, excluding the lunch break? [${formatDuration(
-                    defaults.workDayDuration,
-                    true,
-                )}] `,
+                msg(MessageKey.promptWorkDayDuration, fmtDuration(defaults.workDayDuration, true)),
             );
             if (durationAnswer !== '') {
                 workDayDuration = parseDuration(durationAnswer);
                 if (workDayDuration.asMinutes() <= 0) {
                     error(
                         chalk.red(
-                            `Failed to parse ${durationAnswer} to duration, using default work day duration ${formatDuration(
-                                defaults.workDayDuration,
-                                true,
-                            )}`,
+                            msg(MessageKey.parseTimeFailed, durationAnswer, fmtDuration(defaults.workDayDuration)),
                         ),
                     );
                     workDayDuration = undefined;
@@ -55,19 +53,11 @@ const input = async (): Promise<WtcPromptResult> => {
         }
 
         if (askInput.startTime) {
-            const startTimeAnswer = await rl.question(
-                `What time did you start work today? [${formatTime(defaults.startTime)}] `,
-            );
+            const startTimeAnswer = await rl.question(msg(MessageKey.promptStartTime, formatTime(defaults.startTime)));
             if (startTimeAnswer !== '') {
                 startedAt = parseTimestamp(startTimeAnswer);
                 if (!startedAt.isValid()) {
-                    error(
-                        chalk.red(
-                            `Failed to parse ${startTimeAnswer} to time, using default start time ${formatTime(
-                                defaults.startTime,
-                            )}`,
-                        ),
-                    );
+                    error(chalk.red(msg(MessageKey.parseTimeFailed, startTimeAnswer, formatTime(defaults.startTime))));
                 }
             }
         }
@@ -77,16 +67,13 @@ const input = async (): Promise<WtcPromptResult> => {
         }
 
         if (askInput.stopTime) {
-            const stoppedAnswer = await rl.question(
-                `What time did you stop working? [${formatTime(defaults.stopTime)}] `,
-            );
+            const stoppedAnswer = await rl.question(msg(MessageKey.promptStopTime, formatTime(defaults.stopTime)));
 
             if (stoppedAnswer !== '') {
                 stoppedWorking = true;
                 stoppedAt = parseTimestamp(stoppedAnswer);
                 if (!stoppedAt.isValid()) {
-                    error(`Failed to parse ${stoppedAnswer} to time, using current time`);
-                    stoppedAt = dayjs();
+                    error(chalk.red(msg(MessageKey.parseTimeFailed, stoppedAnswer, formatTime(defaults.stopTime))));
                 }
             }
         }
@@ -97,26 +84,25 @@ const input = async (): Promise<WtcPromptResult> => {
 
         if (stoppedAt.isSame(startedAt) || stoppedAt.isBefore(startedAt)) {
             error(
-                chalk.red(
-                    `Start time (${formatTime(startedAt)}) needs to be before stop time (${formatTime(
-                        stoppedAt,
-                    )}). Exiting`,
-                ),
+                chalk.red(msg(MessageKey.startTimeBeforeStopTimeError, formatTime(startedAt), formatTime(stoppedAt))),
             );
             process.exit(1);
         }
 
         let worked = dayjs.duration(stoppedAt.diff(startedAt));
 
-        const hadLunch =
-            askInput.hadLunch && (await rl.question('Did you have a lunch break? [Y/n] ')).toLowerCase() !== 'n';
+        let hadLunch = false;
+        if (askInput.hadLunch) {
+            const lunchAnswer = (await rl.question(msg(MessageKey.promptLunchBreak))).toLowerCase();
+            hadLunch = lunchAnswer === 'y' || lunchAnswer === 'k';
+        }
 
         if (hadLunch) {
             worked = worked.subtract(defaults.lunchBreakDuration);
         }
 
         // Calculate unlogged time
-        let loggedAnswer = await rl.question('How many hours did you log already? [00:00] ');
+        let loggedAnswer = await rl.question(msg(MessageKey.promptLogged));
         if (loggedAnswer === '') {
             loggedAnswer = '00:00';
         }

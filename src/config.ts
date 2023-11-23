@@ -2,27 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import { xdgConfig } from 'xdg-basedir';
 import toml from '@iarna/toml';
-import { Dayjs } from 'dayjs';
-import { Duration } from 'dayjs/plugin/duration.js';
 import { parseDuration, parseTimestamp } from './parse.js';
+import WtcConfig from './types/WtcConfig.js';
+import Language from './types/Language.js';
 
-interface Config {
-    defaults: {
-        workDayDuration: Duration;
-        lunchBreakDuration: Duration;
-        startTime: Dayjs;
-        stopTime: Dayjs;
-    };
-    askInput: {
-        workDayLength: boolean;
-        startTime: boolean;
-        stopTime: boolean;
-        logged: boolean;
-        hadLunch: boolean;
-    };
-}
-
-interface RawConfig extends Omit<Config, 'defaults'> {
+interface RawConfig extends Omit<WtcConfig, 'defaults'> {
     defaults: {
         workDayDuration: string;
         lunchBreakDuration: string;
@@ -32,6 +16,7 @@ interface RawConfig extends Omit<Config, 'defaults'> {
 }
 
 const defaultConfig: RawConfig = {
+    language: Language.en,
     defaults: {
         workDayDuration: '07:30',
         lunchBreakDuration: '00:30',
@@ -47,9 +32,9 @@ const defaultConfig: RawConfig = {
     },
 };
 
-const getConfig = (): Config => {
+const getConfig = (): WtcConfig => {
     const configDir = xdgConfig || path.join(process.env.HOME ?? './', '.config');
-    let configFilePath = path.join(configDir, 'wct', 'config.toml');
+    let configFilePath = path.join(configDir, 'wtc', 'config.toml');
 
     let configData: RawConfig;
     if (fs.existsSync(configFilePath)) {
@@ -59,6 +44,7 @@ const getConfig = (): Config => {
     }
 
     return {
+        language: configData.language ?? defaultConfig.language,
         defaults: {
             workDayDuration: parseDuration(
                 configData.defaults.workDayDuration ?? defaultConfig.defaults.workDayDuration,

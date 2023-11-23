@@ -1,31 +1,40 @@
 import chalk from 'chalk';
 import { formatDuration, formatTimestamp, getHoursRoundedStr } from './format';
 import { WtcPromptResult } from './types/WtcPromptResult';
+import { MessageKey, message } from './i18n.js';
+import WtcConfig from './types/WtcConfig';
 
 const { log } = console;
 
-const output = (result: WtcPromptResult) => {
+const output = (result: WtcPromptResult, config: WtcConfig) => {
+    const msg = message(config.language);
+    const fmtDuration = formatDuration(config.language);
+    const hoursRounded = getHoursRoundedStr(config.language);
     const { startedAt, stoppedAt, stoppedWorking, worked, unLogged, workLeft, workedOverTime } = result;
     log();
-    log('Started working at:', formatTimestamp(startedAt));
-    log((stoppedWorking ? 'Stopped working' : 'Hours calculated') + ' at:', formatTimestamp(stoppedAt));
-    log('Worked today:', chalk.green(formatDuration(worked)), chalk.yellow(getHoursRoundedStr(worked)));
+    log(msg(MessageKey.startedWorking), formatTimestamp(startedAt));
+    log(
+        (stoppedWorking ? msg(MessageKey.stoppedWorking) : msg(MessageKey.hoursCalculated)) +
+            ` ${msg(MessageKey.klo)}:`,
+        formatTimestamp(stoppedAt),
+    );
+    log(msg(MessageKey.workedToday), chalk.green(fmtDuration(worked)), chalk.yellow(hoursRounded(worked)));
 
-    if (unLogged.asMinutes() == 0) {
-        log('Unlogged today:', chalk.green('none'));
-    } else if (unLogged.asMinutes() > 0) {
-        log('Unlogged today:', chalk.red(formatDuration(unLogged)), chalk.yellow(getHoursRoundedStr(unLogged)));
-    } else if (unLogged.asMinutes() < 0) {
+    const unLoggedMinutes = unLogged.asMinutes();
+    if (unLoggedMinutes >= 0) {
         log(
-            chalk.red(`You have logged ${formatDuration(unLogged)} more than you worked today!`),
-            chalk.yellow(getHoursRoundedStr(unLogged)),
+            msg(MessageKey.unloggedToday),
+            unLoggedMinutes === 0 ? chalk.green(msg(MessageKey.none)) : chalk.red(fmtDuration(unLogged)),
+            chalk.yellow(hoursRounded(unLogged)),
         );
+    } else if (unLoggedMinutes < 0) {
+        log(chalk.red(msg(MessageKey.loggedOver, fmtDuration(unLogged))), chalk.yellow(hoursRounded(unLogged)));
     }
 
     if (workLeft.asMinutes() > 0) {
-        log('You still have to work', chalk.green(formatDuration(workLeft)), 'more today');
+        log(msg(MessageKey.workLeft, chalk.green(fmtDuration(workLeft))));
     } else if (workedOverTime) {
-        log('You worked', chalk.green(formatDuration(workedOverTime), 'overtime today'));
+        log(msg(MessageKey.workedOvertime, chalk.green(fmtDuration(workedOverTime))));
     }
 };
 
