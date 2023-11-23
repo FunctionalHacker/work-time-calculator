@@ -1,9 +1,12 @@
+#:schema https://git.korhonen.cc/FunctionalHacker/work-time-calculator/raw/branch/main/config/config-schema.json
+
 # Work Time Calculator configuration file
 # This is the default configuration.
 # You can only partially override the config,
 # any missing values will use the defaults described here.
-# You can place your configuration file in $XDG_CONFIG_HOME/wtc/config.toml,
+# On Unix/Linux you can place your configuration file in $XDG_CONFIG_HOME/wtc/config.toml,
 # usually ~/.config/wtc/config.toml
+# For windows, I don't know.
 
 # The language of the application.
 # Currently supported languages are "en", "fi"
@@ -17,7 +20,7 @@ timestampFormat = "YYYY-MM-DD HH:mm"
 # This section is for default values for inputs
 [defaults]
 
-# Leave empty if you don't have an unpaid lunch break
+# Set as "00:00" if you don't have an unpaid lunch break
 # or if you normally log your lunch break hours
 lunchBreakDuration = "00:30"
 
@@ -25,7 +28,6 @@ lunchBreakDuration = "00:30"
 workDayDuration = "07:30"
 
 # The time you start working
-
 startTime = "08:00"
 
 # The time you stop working. Can either be "now" or a time

@@ -56,7 +56,7 @@ needs specifically.
 
 == Configuration file
 
-See the https://git.korhonen.cc/FunctionalHacker/work-time-calculator/src/branch/main/config.toml[default configuration file]
+See the https://git.korhonen.cc/FunctionalHacker/work-time-calculator/src/branch/main/config/config.toml[default configuration file]
 for more information on how to override configurations.
 
 == TODO

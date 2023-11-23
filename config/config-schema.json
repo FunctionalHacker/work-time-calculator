@@ -1,0 +1,55 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "language": {
+            "type": "string",
+            "enum": ["en", "fi"]
+        }
+    },
+    "type": "object",
+    "properties": {
+        "language": {
+            "$ref": "#/definitions/language",
+            "description": "The language of the application. Currently supported languages are 'en', 'fi'"
+        },
+        "timestampFormat": {
+            "type": "string",
+            "description": "Time format used to display timestamps (started, stopped, etc.). Refer to the dayjs documentation on how to set this https://day.js.org/docs/en/display/format"
+        },
+        "defaults": {
+            "type": "object",
+            "properties": {
+                "lunchBreakDuration": {
+                    "type": "string",
+                    "description": "Set as \"00:00\" if you don't have an unpaid lunch break or if you normally log your lunch break hours"
+                },
+                "workDayDuration": { "type": "string", "description": "Your work day duration" },
+                "startTime": { "type": "string", "description": "The time you start working" },
+                "stopTime": {
+                    "type": ["string", "null"],
+                    "description": "The time you stop working. Can either be 'now' or a time"
+                }
+            },
+            "required": ["lunchBreakDuration", "workDayDuration", "startTime"],
+            "additionalProperties": false,
+            "description": "Default values for inputs"
+        },
+        "askInput": {
+            "type": "object",
+            "properties": {
+                "workDayDuration": {
+                    "type": "boolean",
+                    "description": "Disable prompt for work day duration if set to false"
+                },
+                "startTime": { "type": "boolean", "description": "Disable prompt for start time if set to false" },
+                "stopTime": { "type": "boolean", "description": "Disable prompt for stop time if set to false" },
+                "logged": { "type": "boolean", "description": "Disable prompt for logged time if set to false" },
+                "hadLunch": { "type": "boolean", "description": "Assumed that you didn't have lunch if this is false" }
+            },
+            "additionalProperties": false,
+            "description": "Settings to disable prompts"
+        }
+    },
+    "additionalProperties": false,
+    "description": "Work Time Calculator configuration file. Configuration file location: $XDG_CONFIG_HOME/wtc/config.toml, usually ~/.config/wtc/config.toml"
+}
