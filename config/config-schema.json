@@ -9,7 +9,7 @@
         "language": {
             "type": "string",
             "enum": ["en", "fi"],
-            "description": "The language of the application. Currently supported languages are 'en', 'fi'"
+            "description": "The language of the application. Currently supported languages are English (en) and Finnish (fi)"
         },
         "timestampFormat": {
             "type": "string",
