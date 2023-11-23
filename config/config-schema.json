@@ -30,7 +30,6 @@
                     "description": "The time you stop working. Can either be 'now' or a time"
                 }
             },
-            "required": ["lunchBreakDuration", "workDayDuration", "startTime"],
             "additionalProperties": false,
             "description": "Default values for inputs"
         },
