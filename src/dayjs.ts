@@ -1,6 +1,6 @@
-import dayjs, {Dayjs} from 'dayjs';
-import duration, {Duration} from 'dayjs/plugin/duration.js';
-import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+import dayjs, {Dayjs} from 'dayjs/esm';
+import duration, {Duration} from 'dayjs/esm/plugin/duration';
+import customParseFormat from 'dayjs/esm/plugin/customParseFormat';
 
 dayjs.extend(duration);
 dayjs.extend(customParseFormat);

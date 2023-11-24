@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { xdgConfig } from 'xdg-basedir';
-import toml from '@iarna/toml';
+import {parse} from 'iarna-toml-esm';
 import { parseDuration, parseTimestamp } from './parse.js';
 import WtcConfig from './types/WtcConfig.js';
 import Language from './types/Language.js';
@@ -36,11 +36,11 @@ const defaultConfig: RawConfig = {
 
 const getConfig = (): WtcConfig => {
     const configDir = xdgConfig || path.join(process.env.HOME ?? './', '.config');
-    let configFilePath = path.join(configDir, 'wtc', 'config.toml');
+    const configFilePath = path.join(configDir, 'wtc', 'config.toml');
 
     let configData: Partial<RawConfig>;
     if (fs.existsSync(configFilePath)) {
-        configData = toml.parse(fs.readFileSync(configFilePath, 'utf8')) as unknown as RawConfig;
+        configData = parse(fs.readFileSync(configFilePath, 'utf8')) as unknown as RawConfig;
     } else {
         configData = defaultConfig;
     }

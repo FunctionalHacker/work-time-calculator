@@ -16,9 +16,10 @@
     "bin": {
         "wtc": "bin/wtc"
     },
-    "main": "dist/wtc.js",
+    "main": "dist/wtc.mjs",
     "scripts": {
-        "build": "rollup -c"
+        "prod": "rollup -c ./rollup.prod.config.js",
+        "dev": "rollup -c ./rollup.dev.config.js"
     },
     "keywords": [
         "work",
@@ -27,6 +28,7 @@
     ],
     "author": "Marko Korhonen <marko@korhonen.cc>",
     "devDependencies": {
+        "@rollup/plugin-node-resolve": "^15.2.3",
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^11.1.5",
         "@types/node": "^20.9.0",
@@ -34,12 +36,13 @@
         "@typescript-eslint/eslint-plugin": "^6.10.0",
         "eslint-config-prettier": "^9.0.0",
         "rollup": "^4.5.1",
+        "rollup-plugin-add-shebang": "^0.3.1",
         "tslib": "^2.6.2"
     },
     "dependencies": {
-        "@iarna/toml": "^2.2.5",
         "chalk": "^5.3.0",
         "dayjs": "^1.11.10",
+        "iarna-toml-esm": "^3.0.5",
         "xdg-basedir": "^5.1.0",
         "yargs": "^17.7.2"
     }
