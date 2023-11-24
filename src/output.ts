@@ -3,11 +3,9 @@ import { formatDuration, getHoursRoundedStr } from './format';
 import { WtcPromptResult } from './types/WtcPromptResult';
 import { MessageKey, message } from './i18n.js';
 import WtcConfig from './types/WtcConfig';
-import duration from 'dayjs/plugin/duration.js';
-import dayjs from 'dayjs';
+import dayjs from './dayjs';
 
 const { log } = console;
-dayjs.extend(duration);
 
 const output = (result: WtcPromptResult, config: WtcConfig) => {
     const { language, timestampFormat } = config;

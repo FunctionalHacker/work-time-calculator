@@ -1,15 +1,12 @@
 import chalk from 'chalk';
-import { Duration } from 'dayjs/plugin/duration';
 import { parseDuration, parseTimestamp } from './parse';
 import * as readline from 'readline/promises';
 import { formatDuration, formatTime } from './format';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 import { WtcPromptResult } from './types/WtcPromptResult';
-import duration from 'dayjs/plugin/duration.js';
 import WtcConfig from './types/WtcConfig';
 import { MessageKey, message } from './i18n';
-
-dayjs.extend(duration);
+import dayjs, { Duration } from './dayjs';
 
 const { error } = console;
 
@@ -123,7 +120,7 @@ const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
         const logged = parseDuration(loggedAnswer);
         const unLogged = worked.subtract(logged);
         const workLeft = workDayDuration.subtract(worked);
-        let workLeftMinutes = workLeft.asMinutes();
+        const workLeftMinutes = workLeft.asMinutes();
         let workedOvertime: Duration | undefined;
 
         if (workLeftMinutes < 0) {

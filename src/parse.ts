@@ -1,9 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat.js';
-import duration, { Duration } from 'dayjs/plugin/duration.js';
-
-dayjs.extend(customParseFormat);
-dayjs.extend(duration);
+import dayjs, { Dayjs, Duration } from './dayjs';
 
 export const parseTimestamp = (time: string): Dayjs => (time === 'now' ? dayjs() : dayjs(time, 'HH:mm', true));
 

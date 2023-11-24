@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from './dayjs';
 import { Duration } from 'dayjs/plugin/duration.js';
 import Language from './types/Language';
 import { MessageKey, message } from './i18n';
