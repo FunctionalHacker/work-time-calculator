@@ -12,11 +12,11 @@
         "url": "https://git.korhonen.cc/FunctionalHacker/work-time-calculator/issues",
         "email": "wtc@functionalhacker.korhonen.cc"
     },
-    "main": "src/main.ts",
     "type": "module",
     "bin": {
         "wtc": "bin/wtc"
     },
+    "main": "dist/wtc.js",
     "scripts": {
         "build": "rollup -c"
     },
