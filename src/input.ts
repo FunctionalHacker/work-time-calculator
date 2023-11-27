@@ -4,14 +4,14 @@ import * as readline from 'readline/promises';
 import { formatDuration, formatTime } from './format';
 import { Dayjs } from 'dayjs';
 import { WtcPromptResult } from './types/WtcPromptResult';
-import WtcConfig from './types/WtcConfig';
-import { MessageKey, message } from './i18n';
+import { WtcRuntimeConfig } from './types/WtcConfig';
+import { MessageKey } from './i18n';
 import dayjs, { Duration } from './dayjs';
 
 const { error } = console;
 
-const input = async (config: WtcConfig): Promise<WtcPromptResult> => {
-    const msg = message(config.language);
+const input = async (runtimeCfg: WtcRuntimeConfig): Promise<WtcPromptResult> => {
+    const { config, msg } = runtimeCfg;
     const fmtDuration = formatDuration(config.language);
     const { defaults, askInput, unpaidLunchBreakDuration: lunchBreakDuration } = config;
     const rl = readline.createInterface({

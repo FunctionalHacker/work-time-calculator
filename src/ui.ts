@@ -1,11 +1,7 @@
-import getConfig from './config.js';
 import input from './input.js';
 import output from './output.js';
+import { WtcRuntimeConfig } from './types/WtcConfig.js';
 
-const ui = async () => {
-    const config = getConfig();
-    const result = await input(config);
-    output(result, config);
-};
+const ui = async (config: WtcRuntimeConfig) => output(await input(config), config);
 
 export default ui;

@@ -1,7 +1,8 @@
 import Language from './types/Language';
 
-
 export enum MessageKey {
+    cliHelp,
+    cliVersion,
     promptWorkDayDuration,
     excludingLunch,
     promptStartTime,
@@ -27,6 +28,14 @@ export enum MessageKey {
 }
 
 const messages: Record<MessageKey, Record<Language, string>> = {
+    [MessageKey.cliHelp]: {
+        [Language.en]: 'Show this help',
+        [Language.fi]: 'Näytä tämä ohje',
+    },
+    [MessageKey.cliVersion]: {
+        [Language.en]: 'Show program version',
+        [Language.fi]: 'Näytä ohjelman versio',
+    },
     [MessageKey.promptWorkDayDuration]: {
         [Language.en]: 'How long is your work day today{0}? [{1}]: ',
         [Language.fi]: 'Kuinka pitkä työpäiväsi on tänään{0}? [{1}]: ',

@@ -1,15 +1,15 @@
 import chalk from 'chalk';
 import { formatDuration, getHoursRoundedStr } from './format';
 import { WtcPromptResult } from './types/WtcPromptResult';
-import { MessageKey, message } from './i18n.js';
-import WtcConfig from './types/WtcConfig';
+import { MessageKey } from './i18n.js';
+import { WtcRuntimeConfig } from './types/WtcConfig';
 import dayjs from './dayjs';
 
 const { log } = console;
 
-const output = (result: WtcPromptResult, config: WtcConfig) => {
+const output = (result: WtcPromptResult, runtimeCfg: WtcRuntimeConfig) => {
+    const {config, msg} = runtimeCfg;
     const { language, timestampFormat } = config;
-    const msg = message(language);
     const fmtDuration = formatDuration(language);
     const hoursRounded = getHoursRoundedStr(language);
     const { startedAt, stoppedAt, stoppedWorking, worked, unLogged, workLeft, workedOvertime, hadLunch } = result;
